@@ -46,8 +46,8 @@
 
 <h3>Online shop</h3>
 
-<button type="button" onclick="RestGet()">Метод GET</button>
-<button type="button" onclick="RestPost()">Метод POST</button>
+<button type="button" onclick="RestGet()">GET</button>
+<button type="button" onclick="RestPost()">POST</button>
 
 </body>
 </html>
