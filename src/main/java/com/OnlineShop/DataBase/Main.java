@@ -1,11 +1,16 @@
 package com.OnlineShop.DataBase;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.mysql.cj.x.json.JsonParser;
 
 import java.sql.*;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.*;
+
+import static com.mysql.cj.api.x.Type.JSON;
 
 /**
  * Created by v.babiak on 05.06.2016.
@@ -27,49 +32,54 @@ public class Main {
         connection = dbWorker.getConnection();
 
         // Current data
-        Calendar calendar = GregorianCalendar.getInstance(TimeZone.getTimeZone("GMT+02:00"));
+        LocalDate localDate = LocalDate.now();
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd' 'HH:mm:ss", Locale.UK);
-        String curDate = dateFormat.format(calendar.getTime());
+        String curDate = dateFormat.format(localDate);
 
-        long curTime = System.currentTimeMillis() - 24 * 3600 * 1000;
-        java.util.Date previosDate = calendar.getTime();
-        previosDate.setTime(curTime);
-        String previosDateString = dateFormat.format(calendar.getTime());
+        LocalDate previosDate = localDate.minusMonths(6);
+        String previosDateString = dateFormat.format(previosDate);
 
         // Write information from web app
-        String str = null;
+        /*String str = null;
         String input = "данные полученные от сервера";
-
         JsonParser parser = new JsonParser();
         JsonObject mainObject = parser.parse(input).getAsJsonObject();
         JsonArray pItem = mainObject.getAsJsonArray("p_item");
 
-        for (JsonElement user : pItem) {
+        for (JsonElement data : pItem) {
 
-            JsonObject userObject = user.getAsJsonObject();
-            userObject.get("p_id");
-            str = userObject.get("p_id").toString();
-        }
+            JsonObject productObject = data.getAsJsonObject();
+            productObject.get("product");
+            productObject.get("count");
+            productObject.get("sum");
+        }*/
 
         // Get information about purchase
-        preparedStatement = connection.prepareStatement(queryGet);
-        preparedStatement.setString(1, previosDateString);
-        preparedStatement.setString(2, curDate);
-        ResultSet resultSetPurchase = preparedStatement.executeQuery();
-        JSON json = new JSON();
-        JSONArray ar = new JSONArray();
-        while (resultSetPurchase.next()) {
-            JsonObject resultJson = new JSONObject();
+        /*try {
+            preparedStatement = connection.prepareStatement(queryGet);
+            preparedStatement.setString(1, previosDate.toString());
+            preparedStatement.setString(2, localDate.toString());
+            ResultSet resultSetPurchase = preparedStatement.executeQuery();
+            JSON json = new JSON();
+            JSONArray ar = new JSONArray();
+            while (resultSetPurchase.next()) {
+                JsonObject resultJson = new JSONObject();
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
         }
 
         // Parserer JSON POST
         // Input purchase with current date
-        preparedStatement = connection.prepareStatement(queryPurchaseInsert);
-        preparedStatement.setInt(2, idproduct);
-        preparedStatement.setInt(3, quntity);
-        preparedStatement.setDate(4, curDate);
-        preparedStatement.execute();
-
+        try {
+            preparedStatement = connection.prepareStatement(queryPurchaseInsert);
+            preparedStatement.setInt(2, idproduct);
+            preparedStatement.setInt(3, quntity);
+            preparedStatement.setDate(4, curDate);
+            preparedStatement.execute();
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }*/
 
     }
 

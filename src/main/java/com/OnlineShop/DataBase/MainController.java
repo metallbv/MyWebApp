@@ -1,9 +1,9 @@
 package com.OnlineShop.DataBase;
 
-import com.devcolibri.rest.domain.MyDataObject;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
@@ -14,19 +14,21 @@ import java.util.GregorianCalendar;
 @RequestMapping(value = "/myservice")
 public class MainController {
 
-    // этот метод будет принимать время методом GET и на его основе
+    // этот метод будетпринимать ArrayList WebData, методом GET
     // отвечать клиенту
     @RequestMapping(value= "/{time}", method = RequestMethod.GET)
     @ResponseBody
-    public MyDataObject getMyData(@PathVariable long time) {
-        return new MyDataObject(Calendar.getInstance(), "Это ответ метода GET!");
+    public ArrayList<WebData> getMyData(@PathVariable long time) {
+        ArrayList<WebData> arrayWebData = new ArrayList<>();
+        return arrayWebData;
     }
 
-    // этот метод будет методом POST отдавать объект MyDataObject
+    // этот метод будет методом POST, формировать ArrayList WebData
     @RequestMapping(method = RequestMethod.POST)
     @ResponseBody
-    public MyDataObject postMyData() {
-        return new MyDataObject(Calendar.getInstance(), "это ответ метода POST!");
+    public ArrayList<WebData> postMyData() {
+        ArrayList<WebData> arrayWebData = new ArrayList<>();
+        return arrayWebData;
     }
 
 }
