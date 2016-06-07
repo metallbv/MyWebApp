@@ -27,7 +27,7 @@ public class DBMain {
             System.out.println(webData);
         }
 
-
+        /*
         // Write information from web app
         String str = null;
         String input = "данные полученные от сервера";
@@ -112,7 +112,7 @@ public class DBMain {
                 insertPurchase(webData, resultSetProduct.getInt("idProduct"));
             } else {
                 int idProduct = insertProduct(webData);
-                insertPurchase(webData, resultSetProduct.getInt("idProduct"));
+                insertPurchase(webData, idProduct);
             }
 
         } catch (SQLException e) {

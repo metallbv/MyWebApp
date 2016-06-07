@@ -23,6 +23,7 @@ public class OnlineShopServlet extends HttpServlet {
         webData.setName(request.getParameter("product"));
         webData.setCount(Integer.parseInt(request.getParameter("count")));
         webData.setSum(Float.parseFloat(request.getParameter("sum")));
+        DBMain.handleWebData(webData);
 
     }
 
