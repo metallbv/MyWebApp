@@ -8,8 +8,8 @@ import java.sql.*;
 public class DBWorker {
 
     private static final String URL = "jdbc:mysql://localhost:3306/onlineshopdb";
-    private static final String USERNAME = "admin";
-    private static final String PUSSWORD = "Pswtrain123";
+    private static final String USERNAME = "root";
+    private static final String PUSSWORD = "root";
 
     private Connection connection;
 

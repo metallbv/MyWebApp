@@ -5,15 +5,15 @@ package com.OnlineShop.DataBase;
  */
 public class WebData {
     private String name;
-    private Integer cont;
+    private Integer count;
     private Float sum;
 
     public WebData() {
     }
 
-    public WebData(String name, Integer cont, Float sum) {
+    public WebData(String name, Integer count, Float sum) {
         this.name = name;
-        this.cont = cont;
+        this.count = count;
         this.sum = sum;
     }
 
@@ -25,12 +25,12 @@ public class WebData {
         this.name = name;
     }
 
-    public Integer getCont() {
-        return cont;
+    public Integer getCount() {
+        return count;
     }
 
-    public void setCont(Integer cont) {
-        this.cont = cont;
+    public void setCount(Integer cont) {
+        this.count = count;
     }
 
     public Float getSum() {
