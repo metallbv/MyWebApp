@@ -96,7 +96,7 @@ public class DBMain {
             while (resultSetPurchase.next()) {
                 WebData webData = new WebData();
                 webData.setName(resultSetPurchase.getString("name"));
-                webData.setCount(resultSetPurchase.getInt("quantity"));
+                webData.setCount((Integer) resultSetPurchase.getInt("quantity"));
                 webData.setSum(resultSetPurchase.getFloat("sum"));
                 webDatas.add(webData);
             }
@@ -113,8 +113,8 @@ public class DBMain {
 
         StringBuilder queryBuilder = new StringBuilder();
         queryBuilder.append("select ");
-        queryBuilder.append("product.name, ");
-        queryBuilder.append("purchase.quantity, ");
+        queryBuilder.append("product.name as name, ");
+        queryBuilder.append("purchase.quantity as quantity, ");
         queryBuilder.append("TRUNCATE(purchase.quantity*product.price, 2) as sum ");
         queryBuilder.append("from purchase ");
         queryBuilder.append("INNER JOIN product on purchase.idproduct = product.idProduct ");

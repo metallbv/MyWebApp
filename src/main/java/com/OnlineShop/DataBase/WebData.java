@@ -29,7 +29,7 @@ public class WebData {
         return count;
     }
 
-    public void setCount(Integer cont) {
+    public void setCount(Integer count) {
         this.count = count;
     }
 
