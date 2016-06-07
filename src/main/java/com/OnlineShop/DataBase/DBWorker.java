@@ -7,22 +7,35 @@ import java.sql.*;
  */
 public class DBWorker {
 
-    private static final String URL = "jdbc:mysql://localhost:3306/onlineshopdb";
-    private static final String USERNAME = "root";
+    private static final String URL = "jdbc:mysql://localhost/onlineshopdb?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
+    private static final String USERNAME = "admin";
     private static final String PUSSWORD = "root";
 
-    private Connection connection;
+    private static Connection connection = null;
 
     public DBWorker() {
+
         try {
-            connection = DriverManager.getConnection(URL, USERNAME, PUSSWORD);
+            Class.forName("com.mysql.jdbc.Driver");
+        } catch (ClassNotFoundException e) {
+            System.out.println("Where is your MySQL JDBC Driver?");
+            e.printStackTrace();
+            return;
+        }
+
+        try {
+            connection = DriverManager
+                    .getConnection(URL, USERNAME, PUSSWORD);
 
         } catch (SQLException e) {
-            System.out.println("Не удалось получить соединение с БД! " + e.getMessage());
+            System.out.println("Connection Failed! Check output console");
+            e.printStackTrace();
+            return;
         }
+
     }
 
-    public Connection getConnection() {
+    public static Connection getConnection() {
         return connection;
     }
 

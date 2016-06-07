@@ -11,59 +11,16 @@ import java.util.*;
 public class DBMain {
 
     private static DBWorker dbWorker = new DBWorker();
-    private static Connection connection = null;
+    private static Connection connection = dbWorker.getConnection();
     private static PreparedStatement preparedStatement = null;
-    private final static String queryProductSelect = "select * from product";
     private final static String getQueryProductId = "SELECT idProduct FROM product Where name = ?";
-    private final static String queryPurchaseSelect = "select * from purchase";
     private final static String queryProductInsert = "Insert into product (name, price) VALUES(?,?)";
     private final static String queryPurchaseInsert = "Insert into purchase (idProduct, quantity, purchasedate) VALUES(?,?,?)";
     private final static String queryGet = returnQueryGet();
 
-    /*public static void main(String[] args) {
-
-        ArrayList<WebData> webDatas = DBMain.getWebData(1);
-        for (WebData webData : webDatas) {
-            System.out.println(webData);
-        }
-
-        /*
-        // Write information from web app
-        String str = null;
-        String input = "данные полученные от сервера";
-        JsonParser parser = new JsonParser();
-        JsonObject mainObject = parser.parse(input).getAsJsonObject();
-        JsonArray pItem = mainObject.getAsJsonArray("p_item");
-
-        for (JsonElement data : pItem) {
-
-            JsonObject productObject = data.getAsJsonObject();
-            productObject.get("product");
-            productObject.get("count");
-            productObject.get("sum");
-        }*/
-
-    // Get information about purchase
-        /*
-
-        // Parserer JSON POST
-        // Input purchase with current date
-        try {
-            preparedStatement = connection.prepareStatement(queryPurchaseInsert);
-            preparedStatement.setInt(2, idproduct);
-            preparedStatement.setInt(3, quntity);
-            preparedStatement.setDate(4, curDate);
-            preparedStatement.execute();
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-        }
-
-    }*/
-
     // Create new Purchase
     public static void insertPurchase(WebData webData, Integer idProduct) {
 
-        connection = dbWorker.getConnection();
         try {
             preparedStatement = connection.prepareStatement(queryPurchaseInsert);
             preparedStatement.setInt(1, idProduct);
@@ -79,12 +36,12 @@ public class DBMain {
 
     // Create new Product
     public static Integer insertProduct(WebData webData) {
-        connection = dbWorker.getConnection();
+
         Integer idProduct = null;
         try {
             preparedStatement = connection.prepareStatement(queryProductInsert);
             preparedStatement.setString(1, webData.getName());
-            preparedStatement.setFloat(2, webData.getSum()/webData.getCount());
+            preparedStatement.setFloat(2, webData.getSum() / webData.getCount());
             preparedStatement.execute();
 
             preparedStatement = connection.prepareStatement(getQueryProductId);
@@ -92,7 +49,7 @@ public class DBMain {
             ResultSet resultSetProduct = preparedStatement.executeQuery();
 
             if (resultSetProduct.next()) {
-                idProduct =  resultSetProduct.getInt("idProduct");
+                idProduct = resultSetProduct.getInt("idProduct");
             }
 
         } catch (SQLException e) {
@@ -105,7 +62,6 @@ public class DBMain {
     // Handle data from method post
     public static void handleWebData(WebData webData) {
 
-        connection = dbWorker.getConnection();
         try {
             preparedStatement = connection.prepareStatement(getQueryProductId);
             preparedStatement.setString(1, webData.getName());
@@ -126,8 +82,6 @@ public class DBMain {
 
     // Get WebData for period
     public static ArrayList<WebData> getWebData(Integer period) {
-
-        connection = dbWorker.getConnection();
 
         ArrayList<WebData> webDatas = new ArrayList<>();
         LocalDate localDate = LocalDate.now();
@@ -158,12 +112,12 @@ public class DBMain {
     private static String returnQueryGet() {
 
         StringBuilder queryBuilder = new StringBuilder();
-        queryBuilder.append("select");
-        queryBuilder.append("product.name,");
-        queryBuilder.append("purchase.quantity,");
-        queryBuilder.append("TRUNCATE(purchase.quantity*product.price, 2) as sum");
-        queryBuilder.append("from purchase");
-        queryBuilder.append("INNER JOIN product on purchase.idproduct = product.idProduct");
+        queryBuilder.append("select ");
+        queryBuilder.append("product.name, ");
+        queryBuilder.append("purchase.quantity, ");
+        queryBuilder.append("TRUNCATE(purchase.quantity*product.price, 2) as sum ");
+        queryBuilder.append("from purchase ");
+        queryBuilder.append("INNER JOIN product on purchase.idproduct = product.idProduct ");
         queryBuilder.append("where purchasedate between ? and ?");
 
         return queryBuilder.toString();
