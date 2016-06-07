@@ -60,6 +60,7 @@ public class DBMain {
 
     }*/
 
+    // Create new Purchase
     public static void insertPurchase(WebData webData, Integer idProduct) {
 
         connection = dbWorker.getConnection();
@@ -76,6 +77,7 @@ public class DBMain {
 
     }
 
+    // Create new Product
     public static Integer insertProduct(WebData webData) {
         connection = dbWorker.getConnection();
         Integer idProduct = null;
@@ -100,6 +102,7 @@ public class DBMain {
         return idProduct;
     }
 
+    // Handle data from method post
     public static void handleWebData(WebData webData) {
 
         connection = dbWorker.getConnection();
@@ -165,47 +168,6 @@ public class DBMain {
 
         return queryBuilder.toString();
 
-    }
-
-    // Get products
-    private ArrayList<Product> getArrayListProduct() {
-        ArrayList<Product> products = new ArrayList<>();
-        try {
-            preparedStatement = connection.prepareStatement(queryProductSelect);
-            ResultSet resultProducts = preparedStatement.executeQuery();
-            while (resultProducts.next()) {
-                Product product = new Product();
-                product.setId(resultProducts.getInt("idProduct"));
-                product.setName(resultProducts.getString("name"));
-                product.setPrice(resultProducts.getFloat("price"));
-                products.add(product);
-            }
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-        }
-
-        return products;
-    }
-
-    // Get purchase
-    private ArrayList<Purchase> getArrayListPurchase() {
-        ArrayList<Purchase> purchases = new ArrayList<>();
-        try {
-            preparedStatement = connection.prepareStatement(queryPurchaseSelect);
-            ResultSet resultPurchase = preparedStatement.executeQuery();
-            while (resultPurchase.next()) {
-                Purchase purchase = new Purchase();
-                purchase.setId(resultPurchase.getInt("id"));
-                purchase.setIdProduct(resultPurchase.getInt("idProduct"));
-                purchase.setQuantity(resultPurchase.getInt("quantity"));
-                purchase.setPurchaseDate(resultPurchase.getDate("purchaseDate"));
-                purchases.add(purchase);
-            }
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-        }
-
-        return purchases;
     }
 
 }
